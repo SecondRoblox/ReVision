@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Web Browser</title>
+    <title>ReVision</title>
 
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     
@@ -47,16 +47,25 @@
 </head>
 <body>
     <div id="navBar">
-        <input id="urlInput" type="text" placeholder="Enter URL here" />
+        <input id="urlInput" type="text" placeholder="Enter URL here" onkeydown="handleKey(event)" />
         <button id="goButton" onclick="loadProxyPage()">Go</button>
     </div>
     <iframe id="frame"></iframe>
 
     <script>
+        function handleKey(event) {
+            if (event.key === 'Enter') {
+                loadProxyPage();
+            }
+        }
+
         function loadProxyPage() {
             const urlInput = document.getElementById('urlInput');
-            const url = urlInput.value.startsWith('http') ? urlInput.value : 'http://' + urlInput.value;
-            const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
+            const inputValue = urlInput.value.trim();
+            const proxyUrl = inputValue.startsWith('http') ? 
+                'https://api.allorigins.win/get?url=' + encodeURIComponent(inputValue) : 
+                'https://api.allorigins.win/get?url=' + encodeURIComponent('http://' + inputValue);
+
             loadPage(proxyUrl); // Load the proxy URL
         }
 
